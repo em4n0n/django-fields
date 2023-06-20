@@ -62,3 +62,72 @@ class Student(models.Model):
         deafult = '1'
     )
     
+#Field Types
+
+#CharField: 
+#This is the most used field type. It can hold string data of length specified by max_lenth parameter. For a longer string, use TextField.
+
+#IntegerField - The field can store an integer between -2147483648 to 2147483647. 
+# There are BigIntegerField, SmallIntegerField and AutoFieldtypes as well to store integers of varying lengths.
+
+#FloatField: can store floating-point number. Variant DecimalField stores a number iwth fixed digits in the fractional part
+class Student(Model):
+    grade = models.DecimanField(
+                        max_digits = 5,
+                        decimal_places = 2)
+    
+#DateTimeField
+
+#Stores the date and time as an object of Python's datetime.datetime class. The DateField stores datetime.date value.
+
+#EmailField
+
+#It’s actually a CharField with an in-built EmailValidator
+
+#FileField
+
+#This field is used to save the file uploaded by the user to a designated path specified by the upload_to parameter.
+
+#ImageField 
+
+#This is a variant of FileField, having the ability to validate if the uploaded file is an image.
+
+#URLField
+
+#A CharField having in-built validation for URL.
+
+#ForeignKey 
+
+#It is used to establisha one-to-many relationship between two models. 
+# It requires two positional arguments - the model with which it is related, and the on_delete option to define the behavior of the delete operation.
+#Suppose you have a Customer and Vehicle model with a one-to-many relationship. A customer can have more than one vehicle.
+
+class Customer(models.Model):
+    name = models.CharField(max_length=255)
+    
+class Vehicle(models.Model):
+    name = models.CharField(max_length=255)
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.CASCADE,
+        related_name='Vehicle'
+    )
+    
+#The on_delete option specifies the behavior in case the associated object in the primary model is deleted. The values are:
+
+#CASCADE: deletes the object containing the ForeignKey
+
+#PROTECT: Prevent deletion of the referenced object
+
+#RESTRICT: Prevent deletion of the referenced object by raising RestrictedError
+
+class Artist(model.Models):
+    name = models.CharField(max_length=10)
+    
+class Album(models.Model):
+    artist = models.ForeignKey(Artist, on_delete=models.CASCASE)
+    
+class Song(models.Model):
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.RESTRICT)
+    
