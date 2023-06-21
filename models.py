@@ -131,3 +131,59 @@ class Song(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.RESTRICT)
     
+#Next, you can create a few instances of these models:
+
+>>> artist1 = Artist.objects.create(name='Danny') 
+>>> artist2 = Artist.objects.create(name='John') 
+>>> album1 = Album.objects.create(artist=artist1) 
+>>> album2 = Album.objects.create(artist=artist2) 
+>>> song1 = Song.objects.create(artist=artist1, album=album1) 
+>>> song_two = Song.objects.create(artist=artis1, album=album2)
+
+#You can safely delete the artist1 instance. If you try to delete artist2, the RestrictedError is raised.
+
+#OneToOneField: 
+#This field in one of the models establishes a one-to-one relationship between the two models. 
+
+#Although a ForeignKey field with unique=True setting, behaves similarly, the reverse side of the relationship will always return a single object.
+
+#The following model definition demonstrates a one-to-one relationship between the college model and a principal model. 
+
+#A college can have only one principal and one person can be a principal of only one college.
+
+class college(Model):
+    CollegeID = models.IntegerField(primary_key = True)
+    name = models.CharField(max_length=50)
+    strength = models.IntegerField()
+    website=models.URLField()
+    
+class Principal(models.Model):
+    CollegeID = models.OneToOneField(
+                College,
+                on_delete=models.CASCADE
+                )
+    Qualifications = models.Charfield(max_length=50)
+    email = models.EmailField(max_length=50)
+    
+    
+    
+#ManyToManyField: 
+
+#This field helps in setting a many-to-many relationship between two models. 
+
+#Here, multiple objects of one model can be associated with multiple objects of another model. 
+
+#For example, in the case of Subject and Teacher models, a subject is taught by more than one teacher. 
+
+#Similarly, a teacher can teach more than one subject. This is represented in the following model definitions:
+
+class Teacher(models.Model):
+    TeacherID = models.IntegerField(primary_key=True)
+    Qualification = models.CharField(max_length=30)
+    email = models.EmailField(max_length=50)
+    
+class Subject(models.Model):
+    Subjectcode = models.IntegerField(primary_key = True)
+    name = models.Charfield(max_length=30)
+    credits = model.IntegerField()
+    teacher = model.ManyToManyField(Teacher)
